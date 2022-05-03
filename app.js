@@ -1,3 +1,4 @@
+//========GET ELEMENT========//
 const enemyHull = document.querySelector("#enemyHull");
 const enemyFirePower =  document.querySelector("#enemyFirePower");
 const enemyAccuracy =  document.querySelector("#enemyAccuracy");
@@ -7,7 +8,10 @@ const playerHull = document.querySelector("#playerHull");
 const playerirePower =  document.querySelector("#playerFirePower");
 const playerAccuracy =  document.querySelector("#playerAccuracy");
 
+const playerImage = document.querySelector('.playerImage');
+const enemyImage = document.querySelector('.enemyImage');
 
+//========CLARIFY VARIABLES AND CLASS=======//
 let currentEnemy = 0;
 let gameOver = false;
 let defalutPlayerHull = 20;
@@ -23,6 +27,7 @@ const gameStates = {
 
 let gameState = gameStates.start;
 
+//========FUNCTION========//
 
 function getRandomNumber(min, max) {
     min = Math.ceil(min);
@@ -114,17 +119,27 @@ function isEnemyLeft(){
     }
 }
 
+function attackTransform(){
+    if(gameStates.attack){
+    playerImage.style.transform = 'rotate(90deg)';
+    playerImage.style.transform = 'scale(2,2)';
+    enemyImage.style.transform = 'rotate(90deg)';
+    enemyImage.style.transform = 'scale(3,3)';
+    }
+}
+
+//========GAME PROCESS========//
 
 do{
     let AlienAttackSuccesfull = true;
     let playerSelection = null;
     let popupBoxType = 'confirm';
 
-    
     console.log("Loop Starts " + gameState)
     switch(gameState){
         case gameStates.start:
             gameStart();
+            attackTransform();
             popupBoxType = "alert";
             alienFleet[0].takeDamage(player.getFirePower());
 
@@ -145,6 +160,7 @@ do{
             break;
         case gameStates.attack:
             updateEnemyStatus();
+            attackTransform();
             popupBoxType = 'alert';
             console.log("I am in attack");
             console.log("Alien ship being attacked " + alienFleet[0].name);
@@ -242,4 +258,4 @@ do{
     console.log("Just before while loop ends " + gameState)
 }while(gameState !== gameStates.gameOver)
 
-alert("Exited the loop. The game is over! For Real!");
+alert("Game over!");
